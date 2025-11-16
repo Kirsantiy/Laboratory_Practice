@@ -1,18 +1,36 @@
 #include "init.h"
 
-void GPIO_Init(void)
+// --- Функция задержки, HSI = 16 МГц
+void Delay(uint32_t ms)
 {
-    // 1. Включение тактирования порта GPIOC (RCC_AHB1ENR, Bit 2)
-    *(uint32_t*)(RCC_AHB1ENR_ADDR) |= RCC_GPIOC_EN; 
-
-    // 2. Настройка PC13 в режим вывода (Output mode: MODER13 = 01b)
-    *(uint32_t*)(GPIOC_BASE + GPIOC_MODER_OFFSET) &= ~GPIOC_MODER_CLEAR; 
-    *(uint32_t*)(GPIOC_BASE + GPIOC_MODER_OFFSET) |= GPIOC_MODER_OUTPUT; 
-
-    // 3. Настройка на Push-Pull (OTYPER13 = 0b)
-    *(uint32_t*)(GPIOC_BASE + GPIOC_OTYPER_OFFSET) &= ~(1 << 13);
-
-    // 4. Отключение PU/PD резисторов (PUPDR13 = 00b)
-    *(uint32_t*)(GPIOC_BASE + GPIOC_PUPDR_OFFSET) &= ~GPIOC_MODER_CLEAR; 
+    for (uint32_t i = 0; i < ms * 16000; i++)
+    {
+        __asm__("nop");
+    }
 }
 
+void GPIO_Init(void)
+{
+    // 1. Включение тактирования портов GPIOA, GPIOB (RCC_AHB1ENR)
+    *(uint32_t *)(RCC_AHB1ENR_ADDR) |= RCC_GPIOA_EN;
+    *(uint32_t *)(RCC_AHB1ENR_ADDR) |= RCC_GPIOB_EN;
+
+    // 2.1 Настройка GPIOA в режим входа (0-2 пины, input - состояние по умолчанию)
+    *(uint32_t *)(GPIOA_MODER_ADDR) |= GPIOA_MODER_INPUT;
+
+    // 2.2 Настройка GPIOB в режим выхода (3-8 пины)
+    *(uint32_t *)(GPIOB_MODER_ADDR) = 0x00000000UL;
+    *(uint32_t *)(GPIOB_MODER_ADDR) |= GPIOB_MODER_OUTPUT;
+
+    // 3. Настройка на Push-Pull (всё переводим в положение выкл)
+    *(uint32_t *)(GPIOA_OTYPER_ADDR) = 0x00000000UL;
+    *(uint32_t *)(GPIOB_OTYPER_ADDR) = 0x00000000UL;
+
+    // 4. Настройка PU/PD резисторов (GPIOA - PD, GPIOB - выкл)
+    *(uint32_t *)(GPIOA_PUPDR_ADDR) |= GPIOA_PUPD;
+    *(uint32_t *)(GPIOB_PUPDR_ADDR) |= GPIOB_PUPD;
+
+    // 5. Настройка BSRR (GPIOB) - изначально отключаем светодиоды
+    *(uint32_t *)(GPIOB_BSRR_ADDR) = (LED1_RESET | LED2_RESET | LED3_RESET | 
+                                     LED4_RESET | LED5_RESET | LED6_RESET);
+}
