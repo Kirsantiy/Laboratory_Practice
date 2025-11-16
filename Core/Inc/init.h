@@ -36,7 +36,8 @@
 
 #define GPIOA_MODER_INPUT 0x00000000UL
 
-#define GPIOB_MODER_OUTPUT 0x00015540UL
+//#define GPIOB_MODER_OUTPUT 0x00015540UL // когда хочу, чтобы все светодиоды так включались
+#define GPIOB_MODER_OUTPUT 0x00015500UL // Все кроме первого сетодиода
 #define GPIOB_MODER_CLEAR  0x00000000UL
 
 #define GPIOA_PUPD 0x15

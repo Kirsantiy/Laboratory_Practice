@@ -11,7 +11,8 @@ void LEDs_Sequence_Set(void)
     state_flag = 1;
     animation_active = 1;
 
-    *(uint32_t *)GPIOB_BSRR_ADDR = LED1_SET;
+    //*(uint32_t *)GPIOB_BSRR_ADDR = LED1_SET;
+    *(uint32_t *)(0x40020400UL + 0x18UL) = 0x00000008UL;
     Delay(100);
     *(uint32_t *)GPIOB_BSRR_ADDR = LED2_SET;
     Delay(100);
@@ -33,7 +34,8 @@ void LEDs_Sequence_Reset(void)
     state_flag = 0;
     animation_active = 1;
 
-    *(uint32_t *)GPIOB_BSRR_ADDR = LED1_RESET;
+    //*(uint32_t *)GPIOB_BSRR_ADDR = LED1_RESET;
+    *(uint32_t *)(0x40020400UL + 0x18UL) = 0x00080000UL;
     Delay(100);
     *(uint32_t *)GPIOB_BSRR_ADDR = LED2_RESET;
     Delay(100);

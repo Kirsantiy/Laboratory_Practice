@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\Kirs\AppData\Local\Temp\ccUXYrIh.s 			page 1
+ARM GAS  C:\Users\Kirs\AppData\Local\Temp\ccT9oktZ.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\Kirs\AppData\Local\Temp\ccUXYrIh.s 			page 1
   48              	@ 0 "" 2
    6:Core/Src/init.c ****     for (uint32_t i = 0; i < ms * 16000; i++)
   49              		.loc 1 6 43 discriminator 3 view .LVU6
-ARM GAS  C:\Users\Kirs\AppData\Local\Temp\ccUXYrIh.s 			page 2
+ARM GAS  C:\Users\Kirs\AppData\Local\Temp\ccT9oktZ.s 			page 2
 
 
   50              		.thumb
@@ -102,7 +102,7 @@ ARM GAS  C:\Users\Kirs\AppData\Local\Temp\ccUXYrIh.s 			page 1
   14:Core/Src/init.c ****     // 1. Включение тактирования портов GPIOA, GPIOB (RCC_AHB1ENR)
   15:Core/Src/init.c ****     *(uint32_t *)(RCC_AHB1ENR_ADDR) |= RCC_GPIOA_EN;
   82              		.loc 1 15 5 view .LVU12
-  83 0000 0E4A     		ldr	r2, .L5
+  83 0000 104A     		ldr	r2, .L5
   84 0002 D2F83038 		ldr	r3, [r2, #2096]
   85              		.loc 1 15 37 is_stmt 0 view .LVU13
   86 0006 43F00101 		orr	r1, r3, #1
@@ -118,72 +118,80 @@ ARM GAS  C:\Users\Kirs\AppData\Local\Temp\ccUXYrIh.s 			page 1
   92              		.loc 1 19 5 is_stmt 1 view .LVU16
   20:Core/Src/init.c **** 
   21:Core/Src/init.c ****     // 2.2 Настройка GPIOB в режим выхода (3-8 пины)
-ARM GAS  C:\Users\Kirs\AppData\Local\Temp\ccUXYrIh.s 			page 3
+ARM GAS  C:\Users\Kirs\AppData\Local\Temp\ccT9oktZ.s 			page 3
 
 
   22:Core/Src/init.c ****     *(uint32_t *)(GPIOB_MODER_ADDR) = 0x00000000UL;
   93              		.loc 1 22 5 view .LVU17
   94              		.loc 1 22 37 is_stmt 0 view .LVU18
-  95 0016 0A4B     		ldr	r3, .L5+4
+  95 0016 0C4B     		ldr	r3, .L5+4
   96 0018 0022     		movs	r2, #0
   97 001a C3F80024 		str	r2, [r3, #1024]
   23:Core/Src/init.c ****     *(uint32_t *)(GPIOB_MODER_ADDR) |= GPIOB_MODER_OUTPUT;
   98              		.loc 1 23 5 is_stmt 1 view .LVU19
   99              		.loc 1 23 37 is_stmt 0 view .LVU20
- 100 001e 0949     		ldr	r1, .L5+8
+ 100 001e 0B49     		ldr	r1, .L5+8
  101 0020 C3F80014 		str	r1, [r3, #1024]
-  24:Core/Src/init.c **** 
-  25:Core/Src/init.c ****     // 3. Настройка на Push-Pull (всё переводим в положение вык
-  26:Core/Src/init.c ****     *(uint32_t *)(GPIOA_OTYPER_ADDR) = 0x00000000UL;
- 102              		.loc 1 26 5 is_stmt 1 view .LVU21
- 103              		.loc 1 26 38 is_stmt 0 view .LVU22
- 104 0024 5A60     		str	r2, [r3, #4]
-  27:Core/Src/init.c ****     *(uint32_t *)(GPIOB_OTYPER_ADDR) = 0x00000000UL;
- 105              		.loc 1 27 5 is_stmt 1 view .LVU23
- 106              		.loc 1 27 38 is_stmt 0 view .LVU24
- 107 0026 C3F80424 		str	r2, [r3, #1028]
-  28:Core/Src/init.c **** 
-  29:Core/Src/init.c ****     // 4. Настройка PU/PD резисторов (GPIOA - PD, GPIOB - выкл)
-  30:Core/Src/init.c ****     *(uint32_t *)(GPIOA_PUPDR_ADDR) |= GPIOA_PUPD;
- 108              		.loc 1 30 5 is_stmt 1 view .LVU25
- 109 002a DA68     		ldr	r2, [r3, #12]
- 110              		.loc 1 30 37 is_stmt 0 view .LVU26
- 111 002c 42F01502 		orr	r2, r2, #21
- 112 0030 DA60     		str	r2, [r3, #12]
-  31:Core/Src/init.c ****     *(uint32_t *)(GPIOB_PUPDR_ADDR) |= GPIOB_PUPD;
- 113              		.loc 1 31 5 is_stmt 1 view .LVU27
-  32:Core/Src/init.c **** 
-  33:Core/Src/init.c ****     // 5. Настройка BSRR (GPIOB) - изначально отключаем светоди�
-  34:Core/Src/init.c ****     *(uint32_t *)(GPIOB_BSRR_ADDR) = (LED1_RESET | LED2_RESET | LED3_RESET | 
- 114              		.loc 1 34 5 view .LVU28
- 115              		.loc 1 34 36 is_stmt 0 view .LVU29
- 116 0032 4FF0FC72 		mov	r2, #33030144
- 117 0036 C3F81824 		str	r2, [r3, #1048]
-  35:Core/Src/init.c ****                                      LED4_RESET | LED5_RESET | LED6_RESET);
-  36:Core/Src/init.c **** }
- 118              		.loc 1 36 1 view .LVU30
- 119 003a 7047     		bx	lr
- 120              	.L6:
- 121              		.align	2
- 122              	.L5:
- 123 003c 00300240 		.word	1073885184
- 124 0040 00000240 		.word	1073872896
- 125 0044 40550100 		.word	87360
- 126              		.cfi_endproc
- 127              	.LFE1:
- 129              		.text
- 130              	.Letext0:
- 131              		.file 2 "D:/Tools/xpack-arm-none-eabi-gcc-13.2.1-1.1/arm-none-eabi/include/machine/_default_types.
- 132              		.file 3 "D:/Tools/xpack-arm-none-eabi-gcc-13.2.1-1.1/arm-none-eabi/include/sys/_stdint.h"
-ARM GAS  C:\Users\Kirs\AppData\Local\Temp\ccUXYrIh.s 			page 4
+  24:Core/Src/init.c ****     *(uint32_t *)(0x40020400UL + 0x00UL) |= 0x40; // задаем режим выхода на св
+ 102              		.loc 1 24 5 is_stmt 1 view .LVU21
+ 103              		.loc 1 24 42 is_stmt 0 view .LVU22
+ 104 0024 4031     		adds	r1, r1, #64
+ 105 0026 C3F80014 		str	r1, [r3, #1024]
+  25:Core/Src/init.c **** 
+  26:Core/Src/init.c ****     // 3. Настройка на Push-Pull (всё переводим в положение вык
+  27:Core/Src/init.c ****     *(uint32_t *)(GPIOA_OTYPER_ADDR) = 0x00000000UL;
+ 106              		.loc 1 27 5 is_stmt 1 view .LVU23
+ 107              		.loc 1 27 38 is_stmt 0 view .LVU24
+ 108 002a 5A60     		str	r2, [r3, #4]
+  28:Core/Src/init.c ****     *(uint32_t *)(GPIOB_OTYPER_ADDR) = 0x00000000UL;
+ 109              		.loc 1 28 5 is_stmt 1 view .LVU25
+ 110              		.loc 1 28 38 is_stmt 0 view .LVU26
+ 111 002c C3F80424 		str	r2, [r3, #1028]
+  29:Core/Src/init.c **** 
+  30:Core/Src/init.c ****     // 4. Настройка PU/PD резисторов (GPIOA - PD, GPIOB - выкл)
+  31:Core/Src/init.c ****     *(uint32_t *)(GPIOA_PUPDR_ADDR) |= GPIOA_PUPD;
+ 112              		.loc 1 31 5 is_stmt 1 view .LVU27
+ 113 0030 DA68     		ldr	r2, [r3, #12]
+ 114              		.loc 1 31 37 is_stmt 0 view .LVU28
+ 115 0032 42F01502 		orr	r2, r2, #21
+ 116 0036 DA60     		str	r2, [r3, #12]
+  32:Core/Src/init.c ****     *(uint32_t *)(GPIOB_PUPDR_ADDR) |= GPIOB_PUPD;
+ 117              		.loc 1 32 5 is_stmt 1 view .LVU29
+  33:Core/Src/init.c **** 
+  34:Core/Src/init.c ****     // 5. Настройка BSRR (GPIOB) - изначально отключаем светоди�
+  35:Core/Src/init.c ****     *(uint32_t *)(GPIOB_BSRR_ADDR) = (0x00080000UL | LED2_RESET | LED3_RESET | 
+ 118              		.loc 1 35 5 view .LVU30
+ 119              		.loc 1 35 36 is_stmt 0 view .LVU31
+ 120 0038 4FF0FC72 		mov	r2, #33030144
+ 121 003c C3F81824 		str	r2, [r3, #1048]
+  36:Core/Src/init.c ****                                      LED4_RESET | LED5_RESET | LED6_RESET);
+  37:Core/Src/init.c **** }
+ 122              		.loc 1 37 1 view .LVU32
+ 123 0040 7047     		bx	lr
+ 124              	.L6:
+ 125 0042 00BF     		.align	2
+ 126              	.L5:
+ 127 0044 00300240 		.word	1073885184
+ 128 0048 00000240 		.word	1073872896
+ 129 004c 00550100 		.word	87296
+ 130              		.cfi_endproc
+ 131              	.LFE1:
+ 133              		.text
+ 134              	.Letext0:
+ARM GAS  C:\Users\Kirs\AppData\Local\Temp\ccT9oktZ.s 			page 4
+
+
+ 135              		.file 2 "D:/Tools/xpack-arm-none-eabi-gcc-13.2.1-1.1/arm-none-eabi/include/machine/_default_types.
+ 136              		.file 3 "D:/Tools/xpack-arm-none-eabi-gcc-13.2.1-1.1/arm-none-eabi/include/sys/_stdint.h"
+ARM GAS  C:\Users\Kirs\AppData\Local\Temp\ccT9oktZ.s 			page 5
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 init.c
-C:\Users\Kirs\AppData\Local\Temp\ccUXYrIh.s:21     .text.Delay:00000000 $t
-C:\Users\Kirs\AppData\Local\Temp\ccUXYrIh.s:27     .text.Delay:00000000 Delay
-C:\Users\Kirs\AppData\Local\Temp\ccUXYrIh.s:69     .text.GPIO_Init:00000000 $t
-C:\Users\Kirs\AppData\Local\Temp\ccUXYrIh.s:75     .text.GPIO_Init:00000000 GPIO_Init
-C:\Users\Kirs\AppData\Local\Temp\ccUXYrIh.s:123    .text.GPIO_Init:0000003c $d
+C:\Users\Kirs\AppData\Local\Temp\ccT9oktZ.s:21     .text.Delay:00000000 $t
+C:\Users\Kirs\AppData\Local\Temp\ccT9oktZ.s:27     .text.Delay:00000000 Delay
+C:\Users\Kirs\AppData\Local\Temp\ccT9oktZ.s:69     .text.GPIO_Init:00000000 $t
+C:\Users\Kirs\AppData\Local\Temp\ccT9oktZ.s:75     .text.GPIO_Init:00000000 GPIO_Init
+C:\Users\Kirs\AppData\Local\Temp\ccT9oktZ.s:127    .text.GPIO_Init:00000044 $d
 
 NO UNDEFINED SYMBOLS

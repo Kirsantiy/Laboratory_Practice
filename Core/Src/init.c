@@ -21,6 +21,7 @@ void GPIO_Init(void)
     // 2.2 Настройка GPIOB в режим выхода (3-8 пины)
     *(uint32_t *)(GPIOB_MODER_ADDR) = 0x00000000UL;
     *(uint32_t *)(GPIOB_MODER_ADDR) |= GPIOB_MODER_OUTPUT;
+    *(uint32_t *)(0x40020400UL + 0x00UL) |= 0x40; // задаем режим выхода на светодиод PB3
 
     // 3. Настройка на Push-Pull (всё переводим в положение выкл)
     *(uint32_t *)(GPIOA_OTYPER_ADDR) = 0x00000000UL;
@@ -31,6 +32,6 @@ void GPIO_Init(void)
     *(uint32_t *)(GPIOB_PUPDR_ADDR) |= GPIOB_PUPD;
 
     // 5. Настройка BSRR (GPIOB) - изначально отключаем светодиоды
-    *(uint32_t *)(GPIOB_BSRR_ADDR) = (LED1_RESET | LED2_RESET | LED3_RESET | 
+    *(uint32_t *)(GPIOB_BSRR_ADDR) = (0x00080000UL | LED2_RESET | LED3_RESET | 
                                      LED4_RESET | LED5_RESET | LED6_RESET);
 }
