@@ -75,7 +75,17 @@
 #define BUTTON2_PRESSED !(*(uint32_t*)GPIOA_IDR_ADDR & BUTTON2_MASK)
 #define BUTTON3_PRESSED !(*(uint32_t*)GPIOA_IDR_ADDR & BUTTON3_MASK)
 
+// Периоды для частот (в миллисекундах для половинного периода)
+#define PERIOD_2HZ  250  // 500 мс полный период = 2 Гц
+#define PERIOD_5HZ  100  // 200 мс полный период = 5 Гц
+#define PERIOD_10HZ 50   // 100 мс полный период = 10 Гц
+
+#define DEBOUNCE_TIME 20        // Задержка антидребезга (мс)
+#define LONG_PRESS_TIME 1000     // Время удержания кнопки (мс)
+
 void GPIO_Init(void);
 void Delay(uint32_t ms);
+uint32_t Millis(void);
+void UpdateMillis(void);
 
 #endif

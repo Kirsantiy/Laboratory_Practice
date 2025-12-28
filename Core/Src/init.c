@@ -1,11 +1,42 @@
 #include "init.h"
 
+// Глобальный счетчик миллисекунд
+volatile uint32_t g_millis = 0;
+static volatile uint32_t systick_counter = 0;
+
 // --- Функция задержки, HSI = 16 МГц
 void Delay(uint32_t ms)
 {
+    // uint32_t start = Millis();
+    // while ((Millis() - start) < ms)
+    // {
+    //     // Обновляем счетчик времени во время задержки
+    //     UpdateMillis();
+    // }
+
     for (uint32_t i = 0; i < ms * 16000; i++)
     {
         __asm__("nop");
+    }
+}
+
+// --- Функция получения текущего времени в миллисекундах ---
+uint32_t Millis(void)
+{
+    return g_millis;
+}
+
+void UpdateMillis(void)
+{
+    static uint32_t last_time_check = 0;
+    static uint32_t cycle_count = 0;
+    
+    cycle_count++;
+    
+    if (cycle_count >= 55)
+    {
+        g_millis++;
+        cycle_count = 0;
     }
 }
 

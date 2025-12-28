@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\Kirs\AppData\Local\Temp\ccT9oktZ.s 			page 1
+ARM GAS  C:\Users\Kirs\AppData\Local\Temp\cca0zkmz.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -31,167 +31,300 @@ ARM GAS  C:\Users\Kirs\AppData\Local\Temp\ccT9oktZ.s 			page 1
   29              	.LFB0:
    1:Core/Src/init.c **** #include "init.h"
    2:Core/Src/init.c **** 
-   3:Core/Src/init.c **** // --- Функция задержки, HSI = 16 МГц
-   4:Core/Src/init.c **** void Delay(uint32_t ms)
-   5:Core/Src/init.c **** {
-  30              		.loc 1 5 1 view -0
+   3:Core/Src/init.c **** // Глобальный счетчик миллисекунд
+   4:Core/Src/init.c **** volatile uint32_t g_millis = 0;
+   5:Core/Src/init.c **** static volatile uint32_t systick_counter = 0;
+   6:Core/Src/init.c **** 
+   7:Core/Src/init.c **** // --- Функция задержки, HSI = 16 МГц
+   8:Core/Src/init.c **** void Delay(uint32_t ms)
+   9:Core/Src/init.c **** {
+  30              		.loc 1 9 1 view -0
   31              		.cfi_startproc
   32              		@ args = 0, pretend = 0, frame = 0
   33              		@ frame_needed = 0, uses_anonymous_args = 0
   34              		@ link register save eliminated.
-   6:Core/Src/init.c ****     for (uint32_t i = 0; i < ms * 16000; i++)
-  35              		.loc 1 6 5 view .LVU1
+  10:Core/Src/init.c ****     // uint32_t start = Millis();
+  11:Core/Src/init.c ****     // while ((Millis() - start) < ms)
+  12:Core/Src/init.c ****     // {
+  13:Core/Src/init.c ****     //     // Обновляем счетчик времени во время задержки
+  14:Core/Src/init.c ****     //     UpdateMillis();
+  15:Core/Src/init.c ****     // }
+  16:Core/Src/init.c **** 
+  17:Core/Src/init.c ****     for (uint32_t i = 0; i < ms * 16000; i++)
+  35              		.loc 1 17 5 view .LVU1
   36              	.LBB2:
-  37              		.loc 1 6 10 view .LVU2
-  38              		.loc 1 6 19 is_stmt 0 view .LVU3
+  37              		.loc 1 17 10 view .LVU2
+  38              		.loc 1 17 19 is_stmt 0 view .LVU3
   39 0000 0022     		movs	r2, #0
-  40              		.loc 1 6 5 view .LVU4
+  40              		.loc 1 17 5 view .LVU4
   41 0002 01E0     		b	.L2
+ARM GAS  C:\Users\Kirs\AppData\Local\Temp\cca0zkmz.s 			page 2
+
+
   42              	.LVL1:
   43              	.L3:
-   7:Core/Src/init.c ****     {
-   8:Core/Src/init.c ****         __asm__("nop");
-  44              		.loc 1 8 9 is_stmt 1 view .LVU5
+  18:Core/Src/init.c ****     {
+  19:Core/Src/init.c ****         __asm__("nop");
+  44              		.loc 1 19 9 is_stmt 1 view .LVU5
   45              		.syntax unified
-  46              	@ 8 "Core/Src/init.c" 1
+  46              	@ 19 "Core/Src/init.c" 1
   47 0004 00BF     		nop
   48              	@ 0 "" 2
-   6:Core/Src/init.c ****     for (uint32_t i = 0; i < ms * 16000; i++)
-  49              		.loc 1 6 43 discriminator 3 view .LVU6
-ARM GAS  C:\Users\Kirs\AppData\Local\Temp\ccT9oktZ.s 			page 2
-
-
+  17:Core/Src/init.c ****     {
+  49              		.loc 1 17 43 discriminator 3 view .LVU6
   50              		.thumb
   51              		.syntax unified
   52 0006 0132     		adds	r2, r2, #1
   53              	.LVL2:
   54              	.L2:
-   6:Core/Src/init.c ****     for (uint32_t i = 0; i < ms * 16000; i++)
-  55              		.loc 1 6 28 discriminator 1 view .LVU7
-   6:Core/Src/init.c ****     for (uint32_t i = 0; i < ms * 16000; i++)
-  56              		.loc 1 6 33 is_stmt 0 discriminator 1 view .LVU8
+  17:Core/Src/init.c ****     {
+  55              		.loc 1 17 28 discriminator 1 view .LVU7
+  17:Core/Src/init.c ****     {
+  56              		.loc 1 17 33 is_stmt 0 discriminator 1 view .LVU8
   57 0008 4FF47A53 		mov	r3, #16000
   58 000c 00FB03F3 		mul	r3, r0, r3
-   6:Core/Src/init.c ****     for (uint32_t i = 0; i < ms * 16000; i++)
-  59              		.loc 1 6 28 discriminator 1 view .LVU9
+  17:Core/Src/init.c ****     {
+  59              		.loc 1 17 28 discriminator 1 view .LVU9
   60 0010 9342     		cmp	r3, r2
   61 0012 F7D8     		bhi	.L3
   62              	.LBE2:
-   9:Core/Src/init.c ****     }
-  10:Core/Src/init.c **** }
-  63              		.loc 1 10 1 view .LVU10
+  20:Core/Src/init.c ****     }
+  21:Core/Src/init.c **** }
+  63              		.loc 1 21 1 view .LVU10
   64 0014 7047     		bx	lr
   65              		.cfi_endproc
   66              	.LFE0:
-  68              		.section	.text.GPIO_Init,"ax",%progbits
+  68              		.section	.text.Millis,"ax",%progbits
   69              		.align	1
-  70              		.global	GPIO_Init
+  70              		.global	Millis
   71              		.syntax unified
   72              		.thumb
   73              		.thumb_func
-  75              	GPIO_Init:
+  75              	Millis:
   76              	.LFB1:
-  11:Core/Src/init.c **** 
-  12:Core/Src/init.c **** void GPIO_Init(void)
-  13:Core/Src/init.c **** {
-  77              		.loc 1 13 1 is_stmt 1 view -0
+  22:Core/Src/init.c **** 
+  23:Core/Src/init.c **** // --- Функция получения текущего времени в миллисекунд�
+  24:Core/Src/init.c **** uint32_t Millis(void)
+  25:Core/Src/init.c **** {
+  77              		.loc 1 25 1 is_stmt 1 view -0
   78              		.cfi_startproc
   79              		@ args = 0, pretend = 0, frame = 0
   80              		@ frame_needed = 0, uses_anonymous_args = 0
   81              		@ link register save eliminated.
-  14:Core/Src/init.c ****     // 1. Включение тактирования портов GPIOA, GPIOB (RCC_AHB1ENR)
-  15:Core/Src/init.c ****     *(uint32_t *)(RCC_AHB1ENR_ADDR) |= RCC_GPIOA_EN;
-  82              		.loc 1 15 5 view .LVU12
-  83 0000 104A     		ldr	r2, .L5
-  84 0002 D2F83038 		ldr	r3, [r2, #2096]
-  85              		.loc 1 15 37 is_stmt 0 view .LVU13
-  86 0006 43F00101 		orr	r1, r3, #1
-  87 000a C2F83018 		str	r1, [r2, #2096]
-  16:Core/Src/init.c ****     *(uint32_t *)(RCC_AHB1ENR_ADDR) |= RCC_GPIOB_EN;
-  88              		.loc 1 16 5 is_stmt 1 view .LVU14
-  89              		.loc 1 16 37 is_stmt 0 view .LVU15
-  90 000e 43F00303 		orr	r3, r3, #3
-  91 0012 C2F83038 		str	r3, [r2, #2096]
-  17:Core/Src/init.c **** 
-  18:Core/Src/init.c ****     // 2.1 Настройка GPIOA в режим входа (0-2 пины, input - состоян�
-  19:Core/Src/init.c ****     *(uint32_t *)(GPIOA_MODER_ADDR) |= GPIOA_MODER_INPUT;
-  92              		.loc 1 19 5 is_stmt 1 view .LVU16
-  20:Core/Src/init.c **** 
-  21:Core/Src/init.c ****     // 2.2 Настройка GPIOB в режим выхода (3-8 пины)
-ARM GAS  C:\Users\Kirs\AppData\Local\Temp\ccT9oktZ.s 			page 3
+  26:Core/Src/init.c ****     return g_millis;
+  82              		.loc 1 26 5 view .LVU12
+  83              		.loc 1 26 12 is_stmt 0 view .LVU13
+  84 0000 014B     		ldr	r3, .L5
+  85 0002 1868     		ldr	r0, [r3]
+  27:Core/Src/init.c **** }
+  86              		.loc 1 27 1 view .LVU14
+ARM GAS  C:\Users\Kirs\AppData\Local\Temp\cca0zkmz.s 			page 3
 
 
-  22:Core/Src/init.c ****     *(uint32_t *)(GPIOB_MODER_ADDR) = 0x00000000UL;
-  93              		.loc 1 22 5 view .LVU17
-  94              		.loc 1 22 37 is_stmt 0 view .LVU18
-  95 0016 0C4B     		ldr	r3, .L5+4
-  96 0018 0022     		movs	r2, #0
-  97 001a C3F80024 		str	r2, [r3, #1024]
-  23:Core/Src/init.c ****     *(uint32_t *)(GPIOB_MODER_ADDR) |= GPIOB_MODER_OUTPUT;
-  98              		.loc 1 23 5 is_stmt 1 view .LVU19
-  99              		.loc 1 23 37 is_stmt 0 view .LVU20
- 100 001e 0B49     		ldr	r1, .L5+8
- 101 0020 C3F80014 		str	r1, [r3, #1024]
-  24:Core/Src/init.c ****     *(uint32_t *)(0x40020400UL + 0x00UL) |= 0x40; // задаем режим выхода на св
- 102              		.loc 1 24 5 is_stmt 1 view .LVU21
- 103              		.loc 1 24 42 is_stmt 0 view .LVU22
- 104 0024 4031     		adds	r1, r1, #64
- 105 0026 C3F80014 		str	r1, [r3, #1024]
-  25:Core/Src/init.c **** 
-  26:Core/Src/init.c ****     // 3. Настройка на Push-Pull (всё переводим в положение вык
-  27:Core/Src/init.c ****     *(uint32_t *)(GPIOA_OTYPER_ADDR) = 0x00000000UL;
- 106              		.loc 1 27 5 is_stmt 1 view .LVU23
- 107              		.loc 1 27 38 is_stmt 0 view .LVU24
- 108 002a 5A60     		str	r2, [r3, #4]
-  28:Core/Src/init.c ****     *(uint32_t *)(GPIOB_OTYPER_ADDR) = 0x00000000UL;
- 109              		.loc 1 28 5 is_stmt 1 view .LVU25
- 110              		.loc 1 28 38 is_stmt 0 view .LVU26
- 111 002c C3F80424 		str	r2, [r3, #1028]
-  29:Core/Src/init.c **** 
-  30:Core/Src/init.c ****     // 4. Настройка PU/PD резисторов (GPIOA - PD, GPIOB - выкл)
-  31:Core/Src/init.c ****     *(uint32_t *)(GPIOA_PUPDR_ADDR) |= GPIOA_PUPD;
- 112              		.loc 1 31 5 is_stmt 1 view .LVU27
- 113 0030 DA68     		ldr	r2, [r3, #12]
- 114              		.loc 1 31 37 is_stmt 0 view .LVU28
- 115 0032 42F01502 		orr	r2, r2, #21
- 116 0036 DA60     		str	r2, [r3, #12]
-  32:Core/Src/init.c ****     *(uint32_t *)(GPIOB_PUPDR_ADDR) |= GPIOB_PUPD;
- 117              		.loc 1 32 5 is_stmt 1 view .LVU29
-  33:Core/Src/init.c **** 
-  34:Core/Src/init.c ****     // 5. Настройка BSRR (GPIOB) - изначально отключаем светоди�
-  35:Core/Src/init.c ****     *(uint32_t *)(GPIOB_BSRR_ADDR) = (0x00080000UL | LED2_RESET | LED3_RESET | 
- 118              		.loc 1 35 5 view .LVU30
- 119              		.loc 1 35 36 is_stmt 0 view .LVU31
- 120 0038 4FF0FC72 		mov	r2, #33030144
- 121 003c C3F81824 		str	r2, [r3, #1048]
-  36:Core/Src/init.c ****                                      LED4_RESET | LED5_RESET | LED6_RESET);
-  37:Core/Src/init.c **** }
- 122              		.loc 1 37 1 view .LVU32
- 123 0040 7047     		bx	lr
- 124              	.L6:
- 125 0042 00BF     		.align	2
- 126              	.L5:
- 127 0044 00300240 		.word	1073885184
- 128 0048 00000240 		.word	1073872896
- 129 004c 00550100 		.word	87296
- 130              		.cfi_endproc
- 131              	.LFE1:
- 133              		.text
- 134              	.Letext0:
-ARM GAS  C:\Users\Kirs\AppData\Local\Temp\ccT9oktZ.s 			page 4
+  87 0004 7047     		bx	lr
+  88              	.L6:
+  89 0006 00BF     		.align	2
+  90              	.L5:
+  91 0008 00000000 		.word	g_millis
+  92              		.cfi_endproc
+  93              	.LFE1:
+  95              		.section	.text.UpdateMillis,"ax",%progbits
+  96              		.align	1
+  97              		.global	UpdateMillis
+  98              		.syntax unified
+  99              		.thumb
+ 100              		.thumb_func
+ 102              	UpdateMillis:
+ 103              	.LFB2:
+  28:Core/Src/init.c **** 
+  29:Core/Src/init.c **** void UpdateMillis(void)
+  30:Core/Src/init.c **** {
+ 104              		.loc 1 30 1 is_stmt 1 view -0
+ 105              		.cfi_startproc
+ 106              		@ args = 0, pretend = 0, frame = 0
+ 107              		@ frame_needed = 0, uses_anonymous_args = 0
+ 108              		@ link register save eliminated.
+  31:Core/Src/init.c ****     static uint32_t last_time_check = 0;
+ 109              		.loc 1 31 5 view .LVU16
+  32:Core/Src/init.c ****     static uint32_t cycle_count = 0;
+ 110              		.loc 1 32 5 view .LVU17
+  33:Core/Src/init.c ****     
+  34:Core/Src/init.c ****     cycle_count++;
+ 111              		.loc 1 34 5 view .LVU18
+ 112              		.loc 1 34 16 is_stmt 0 view .LVU19
+ 113 0000 064A     		ldr	r2, .L9
+ 114 0002 1368     		ldr	r3, [r2]
+ 115 0004 0133     		adds	r3, r3, #1
+ 116 0006 1360     		str	r3, [r2]
+  35:Core/Src/init.c ****     
+  36:Core/Src/init.c ****     if (cycle_count >= 55)
+ 117              		.loc 1 36 5 is_stmt 1 view .LVU20
+ 118              		.loc 1 36 8 is_stmt 0 view .LVU21
+ 119 0008 362B     		cmp	r3, #54
+ 120 000a 06D9     		bls	.L7
+  37:Core/Src/init.c ****     {
+  38:Core/Src/init.c ****         g_millis++;
+ 121              		.loc 1 38 9 is_stmt 1 view .LVU22
+ 122              		.loc 1 38 17 is_stmt 0 view .LVU23
+ 123 000c 044A     		ldr	r2, .L9+4
+ 124 000e 1368     		ldr	r3, [r2]
+ 125 0010 0133     		adds	r3, r3, #1
+ 126 0012 1360     		str	r3, [r2]
+  39:Core/Src/init.c ****         cycle_count = 0;
+ 127              		.loc 1 39 9 is_stmt 1 view .LVU24
+ 128              		.loc 1 39 21 is_stmt 0 view .LVU25
+ 129 0014 014B     		ldr	r3, .L9
+ 130 0016 0022     		movs	r2, #0
+ 131 0018 1A60     		str	r2, [r3]
+ 132              	.L7:
+  40:Core/Src/init.c ****     }
+ARM GAS  C:\Users\Kirs\AppData\Local\Temp\cca0zkmz.s 			page 4
 
 
- 135              		.file 2 "D:/Tools/xpack-arm-none-eabi-gcc-13.2.1-1.1/arm-none-eabi/include/machine/_default_types.
- 136              		.file 3 "D:/Tools/xpack-arm-none-eabi-gcc-13.2.1-1.1/arm-none-eabi/include/sys/_stdint.h"
-ARM GAS  C:\Users\Kirs\AppData\Local\Temp\ccT9oktZ.s 			page 5
+  41:Core/Src/init.c **** }
+ 133              		.loc 1 41 1 view .LVU26
+ 134 001a 7047     		bx	lr
+ 135              	.L10:
+ 136              		.align	2
+ 137              	.L9:
+ 138 001c 00000000 		.word	cycle_count.0
+ 139 0020 00000000 		.word	g_millis
+ 140              		.cfi_endproc
+ 141              	.LFE2:
+ 143              		.section	.text.GPIO_Init,"ax",%progbits
+ 144              		.align	1
+ 145              		.global	GPIO_Init
+ 146              		.syntax unified
+ 147              		.thumb
+ 148              		.thumb_func
+ 150              	GPIO_Init:
+ 151              	.LFB3:
+  42:Core/Src/init.c **** 
+  43:Core/Src/init.c **** void GPIO_Init(void)
+  44:Core/Src/init.c **** {
+ 152              		.loc 1 44 1 is_stmt 1 view -0
+ 153              		.cfi_startproc
+ 154              		@ args = 0, pretend = 0, frame = 0
+ 155              		@ frame_needed = 0, uses_anonymous_args = 0
+ 156              		@ link register save eliminated.
+  45:Core/Src/init.c ****     // 1. Включение тактирования портов GPIOA, GPIOB (RCC_AHB1ENR)
+  46:Core/Src/init.c ****     *(uint32_t *)(RCC_AHB1ENR_ADDR) |= RCC_GPIOA_EN;
+ 157              		.loc 1 46 5 view .LVU28
+ 158 0000 104A     		ldr	r2, .L12
+ 159 0002 D2F83038 		ldr	r3, [r2, #2096]
+ 160              		.loc 1 46 37 is_stmt 0 view .LVU29
+ 161 0006 43F00101 		orr	r1, r3, #1
+ 162 000a C2F83018 		str	r1, [r2, #2096]
+  47:Core/Src/init.c ****     *(uint32_t *)(RCC_AHB1ENR_ADDR) |= RCC_GPIOB_EN;
+ 163              		.loc 1 47 5 is_stmt 1 view .LVU30
+ 164              		.loc 1 47 37 is_stmt 0 view .LVU31
+ 165 000e 43F00303 		orr	r3, r3, #3
+ 166 0012 C2F83038 		str	r3, [r2, #2096]
+  48:Core/Src/init.c **** 
+  49:Core/Src/init.c ****     // 2.1 Настройка GPIOA в режим входа (0-2 пины, input - состоян�
+  50:Core/Src/init.c ****     *(uint32_t *)(GPIOA_MODER_ADDR) |= GPIOA_MODER_INPUT;
+ 167              		.loc 1 50 5 is_stmt 1 view .LVU32
+  51:Core/Src/init.c **** 
+  52:Core/Src/init.c ****     // 2.2 Настройка GPIOB в режим выхода (3-8 пины)
+  53:Core/Src/init.c ****     *(uint32_t *)(GPIOB_MODER_ADDR) = 0x00000000UL;
+ 168              		.loc 1 53 5 view .LVU33
+ 169              		.loc 1 53 37 is_stmt 0 view .LVU34
+ 170 0016 0C4B     		ldr	r3, .L12+4
+ 171 0018 0022     		movs	r2, #0
+ 172 001a C3F80024 		str	r2, [r3, #1024]
+  54:Core/Src/init.c ****     *(uint32_t *)(GPIOB_MODER_ADDR) |= GPIOB_MODER_OUTPUT;
+ 173              		.loc 1 54 5 is_stmt 1 view .LVU35
+ 174              		.loc 1 54 37 is_stmt 0 view .LVU36
+ 175 001e 0B49     		ldr	r1, .L12+8
+ 176 0020 C3F80014 		str	r1, [r3, #1024]
+  55:Core/Src/init.c ****     *(uint32_t *)(0x40020400UL + 0x00UL) |= 0x40; // задаем режим выхода на св
+ARM GAS  C:\Users\Kirs\AppData\Local\Temp\cca0zkmz.s 			page 5
+
+
+ 177              		.loc 1 55 5 is_stmt 1 view .LVU37
+ 178              		.loc 1 55 42 is_stmt 0 view .LVU38
+ 179 0024 4031     		adds	r1, r1, #64
+ 180 0026 C3F80014 		str	r1, [r3, #1024]
+  56:Core/Src/init.c **** 
+  57:Core/Src/init.c ****     // 3. Настройка на Push-Pull (всё переводим в положение вык
+  58:Core/Src/init.c ****     *(uint32_t *)(GPIOA_OTYPER_ADDR) = 0x00000000UL;
+ 181              		.loc 1 58 5 is_stmt 1 view .LVU39
+ 182              		.loc 1 58 38 is_stmt 0 view .LVU40
+ 183 002a 5A60     		str	r2, [r3, #4]
+  59:Core/Src/init.c ****     *(uint32_t *)(GPIOB_OTYPER_ADDR) = 0x00000000UL;
+ 184              		.loc 1 59 5 is_stmt 1 view .LVU41
+ 185              		.loc 1 59 38 is_stmt 0 view .LVU42
+ 186 002c C3F80424 		str	r2, [r3, #1028]
+  60:Core/Src/init.c **** 
+  61:Core/Src/init.c ****     // 4. Настройка PU/PD резисторов (GPIOA - PD, GPIOB - выкл)
+  62:Core/Src/init.c ****     *(uint32_t *)(GPIOA_PUPDR_ADDR) |= GPIOA_PUPD;
+ 187              		.loc 1 62 5 is_stmt 1 view .LVU43
+ 188 0030 DA68     		ldr	r2, [r3, #12]
+ 189              		.loc 1 62 37 is_stmt 0 view .LVU44
+ 190 0032 42F01502 		orr	r2, r2, #21
+ 191 0036 DA60     		str	r2, [r3, #12]
+  63:Core/Src/init.c ****     *(uint32_t *)(GPIOB_PUPDR_ADDR) |= GPIOB_PUPD;
+ 192              		.loc 1 63 5 is_stmt 1 view .LVU45
+  64:Core/Src/init.c **** 
+  65:Core/Src/init.c ****     // 5. Настройка BSRR (GPIOB) - изначально отключаем светоди�
+  66:Core/Src/init.c ****     *(uint32_t *)(GPIOB_BSRR_ADDR) = (0x00080000UL | LED2_RESET | LED3_RESET | 
+ 193              		.loc 1 66 5 view .LVU46
+ 194              		.loc 1 66 36 is_stmt 0 view .LVU47
+ 195 0038 4FF0FC72 		mov	r2, #33030144
+ 196 003c C3F81824 		str	r2, [r3, #1048]
+  67:Core/Src/init.c ****                                      LED4_RESET | LED5_RESET | LED6_RESET);
+  68:Core/Src/init.c **** }
+ 197              		.loc 1 68 1 view .LVU48
+ 198 0040 7047     		bx	lr
+ 199              	.L13:
+ 200 0042 00BF     		.align	2
+ 201              	.L12:
+ 202 0044 00300240 		.word	1073885184
+ 203 0048 00000240 		.word	1073872896
+ 204 004c 00550100 		.word	87296
+ 205              		.cfi_endproc
+ 206              	.LFE3:
+ 208              		.section	.bss.cycle_count.0,"aw",%nobits
+ 209              		.align	2
+ 212              	cycle_count.0:
+ 213 0000 00000000 		.space	4
+ 214              		.section	.bss.systick_counter,"aw",%nobits
+ 215              		.align	2
+ 218              	systick_counter:
+ 219 0000 00000000 		.space	4
+ 220              		.global	g_millis
+ 221              		.section	.bss.g_millis,"aw",%nobits
+ 222              		.align	2
+ 225              	g_millis:
+ 226 0000 00000000 		.space	4
+ 227              		.text
+ARM GAS  C:\Users\Kirs\AppData\Local\Temp\cca0zkmz.s 			page 6
+
+
+ 228              	.Letext0:
+ 229              		.file 2 "D:/Tools/xpack-arm-none-eabi-gcc-13.2.1-1.1/arm-none-eabi/include/machine/_default_types.
+ 230              		.file 3 "D:/Tools/xpack-arm-none-eabi-gcc-13.2.1-1.1/arm-none-eabi/include/sys/_stdint.h"
+ARM GAS  C:\Users\Kirs\AppData\Local\Temp\cca0zkmz.s 			page 7
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 init.c
-C:\Users\Kirs\AppData\Local\Temp\ccT9oktZ.s:21     .text.Delay:00000000 $t
-C:\Users\Kirs\AppData\Local\Temp\ccT9oktZ.s:27     .text.Delay:00000000 Delay
-C:\Users\Kirs\AppData\Local\Temp\ccT9oktZ.s:69     .text.GPIO_Init:00000000 $t
-C:\Users\Kirs\AppData\Local\Temp\ccT9oktZ.s:75     .text.GPIO_Init:00000000 GPIO_Init
-C:\Users\Kirs\AppData\Local\Temp\ccT9oktZ.s:127    .text.GPIO_Init:00000044 $d
+C:\Users\Kirs\AppData\Local\Temp\cca0zkmz.s:21     .text.Delay:00000000 $t
+C:\Users\Kirs\AppData\Local\Temp\cca0zkmz.s:27     .text.Delay:00000000 Delay
+C:\Users\Kirs\AppData\Local\Temp\cca0zkmz.s:69     .text.Millis:00000000 $t
+C:\Users\Kirs\AppData\Local\Temp\cca0zkmz.s:75     .text.Millis:00000000 Millis
+C:\Users\Kirs\AppData\Local\Temp\cca0zkmz.s:91     .text.Millis:00000008 $d
+C:\Users\Kirs\AppData\Local\Temp\cca0zkmz.s:225    .bss.g_millis:00000000 g_millis
+C:\Users\Kirs\AppData\Local\Temp\cca0zkmz.s:96     .text.UpdateMillis:00000000 $t
+C:\Users\Kirs\AppData\Local\Temp\cca0zkmz.s:102    .text.UpdateMillis:00000000 UpdateMillis
+C:\Users\Kirs\AppData\Local\Temp\cca0zkmz.s:138    .text.UpdateMillis:0000001c $d
+C:\Users\Kirs\AppData\Local\Temp\cca0zkmz.s:212    .bss.cycle_count.0:00000000 cycle_count.0
+C:\Users\Kirs\AppData\Local\Temp\cca0zkmz.s:144    .text.GPIO_Init:00000000 $t
+C:\Users\Kirs\AppData\Local\Temp\cca0zkmz.s:150    .text.GPIO_Init:00000000 GPIO_Init
+C:\Users\Kirs\AppData\Local\Temp\cca0zkmz.s:202    .text.GPIO_Init:00000044 $d
+C:\Users\Kirs\AppData\Local\Temp\cca0zkmz.s:209    .bss.cycle_count.0:00000000 $d
+C:\Users\Kirs\AppData\Local\Temp\cca0zkmz.s:215    .bss.systick_counter:00000000 $d
+C:\Users\Kirs\AppData\Local\Temp\cca0zkmz.s:218    .bss.systick_counter:00000000 systick_counter
+C:\Users\Kirs\AppData\Local\Temp\cca0zkmz.s:222    .bss.g_millis:00000000 $d
 
 NO UNDEFINED SYMBOLS
